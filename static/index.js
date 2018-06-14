@@ -1,17 +1,19 @@
 console.log("hello")
 function updateMetaData(data) {
+    console.log("DATA:", data)
     // Reference to Panel element for sample metadata
     var PANEL = document.getElementById("sample-metadata");
     // Clear any existing metadata
     PANEL.innerHTML = '';
     // Loop through all of the keys in the json response and
     // create new metadata tags
-    for(var key in data) {
+    var keys = ["AGE", "BBTYPE", "ETHNICITY", "GENDER", "LOCATION", "SAMPLEID"]
+    keys.map( (key) => {
         h6tag = document.createElement("h6");
         h6Text = document.createTextNode(`${key}: ${data[key]}`);
         h6tag.append(h6Text);
         PANEL.appendChild(h6tag);
-    }
+    })
 }
 function buildCharts(sampleData, otuData) {
     
@@ -26,13 +28,13 @@ function buildCharts(sampleData, otuData) {
         xaxis: { title: 'OTU ID' }
     };
     var bubbleData = [{
-        x: sampleData[0]['otu_ids'],
-        y: sampleData[0]['sample_values'],
+        x: sampleData['otu_ids'],
+        y: sampleData['sample_values'],
         text: labels,
         mode: 'markers',
         marker: {
-            size: sampleData[0]['sample_values'],
-            color: sampleData[0]['otu_ids'],
+            size: sampleData['sample_values'],
+            color: sampleData['otu_ids'],
             colorscale: "Earth",
         }
     }];
@@ -41,8 +43,8 @@ function buildCharts(sampleData, otuData) {
     // Build Pie Chart
     console.log(sampleData['sample_values'].slice(0, 10))
     var pieData = [{
-        values: sampleData[0]['sample_values'].slice(0, 10),
-        labels: sampleData[0]['otu_ids'].slice(0, 10),
+        values: sampleData['sample_values'].slice(0, 10),
+        labels: sampleData['otu_ids'].slice(0, 10),
         hovertext: labels.slice(0, 10),
         hoverinfo: 'hovertext',
         type: 'pie'

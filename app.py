@@ -56,6 +56,7 @@ def wfreq(sample):
 @app.route('/samples/<sample>')
 def get_samples(sample):
     sorted_sample=samples.sort_values(sample,ascending=False)
+    sorted_sample = sorted_sample[sorted_sample[sample] > 1]
     results={
         "otu_ids": sorted_sample['otu_id'].tolist(),
         "sample_values":sorted_sample[sample].tolist()
